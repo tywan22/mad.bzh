@@ -297,7 +297,204 @@ body {
     }
 
 }
+/* ==========================================
+   EFFETS VISUELS - MER / LUEURS / ÉCLAIRS
+   ========================================== */
 
+/* --- LUEUR ATMOSPHÉRIQUE --- */
+
+.ambient-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+
+    background:
+        radial-gradient(
+            ellipse at 78% 55%,
+            rgba(255, 180, 70, 0.10),
+            transparent 35%
+        );
+
+    animation: ambientPulse 8s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+    0%, 100% {
+        opacity: 0.45;
+    }
+
+    50% {
+        opacity: 0.85;
+    }
+}
+
+
+/* --- LÉGER MIROITEMENT SUR LA MER --- */
+
+.sea-shimmer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 38%;
+
+    pointer-events: none;
+    z-index: 4;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 0%,
+            rgba(255, 190, 100, 0.02) 35%,
+            rgba(255, 210, 130, 0.08) 70%,
+            transparent 100%
+        );
+
+    opacity: 0.45;
+
+    animation: seaShimmer 7s ease-in-out infinite;
+}
+
+@keyframes seaShimmer {
+    0%, 100% {
+        transform: translateX(-1%);
+        opacity: 0.30;
+    }
+
+    50% {
+        transform: translateX(1%);
+        opacity: 0.65;
+    }
+}
+
+
+/* --- PETITES LUEURS SUR L'HORIZON --- */
+
+.sea-shimmer::after {
+    content: "";
+    position: absolute;
+
+    left: 15%;
+    right: 15%;
+    top: 42%;
+
+    height: 2px;
+
+    background: rgba(255, 210, 130, 0.22);
+
+    filter: blur(2px);
+
+    animation: horizonGlow 5s ease-in-out infinite;
+}
+
+@keyframes horizonGlow {
+    0%, 100% {
+        opacity: 0.15;
+        transform: scaleX(0.85);
+    }
+
+    50% {
+        opacity: 0.65;
+        transform: scaleX(1);
+    }
+}
+
+
+/* --- ÉCLAIRS TRÈS DISCRETS --- */
+
+.lightning {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 5;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent 0%,
+            transparent 46%,
+            rgba(255, 255, 255, 0.12) 49%,
+            transparent 52%,
+            transparent 100%
+        );
+
+    animation: distantLightning 13s infinite;
+}
+
+@keyframes distantLightning {
+
+    0%, 88%, 100% {
+        opacity: 0;
+    }
+
+    89% {
+        opacity: 0.15;
+    }
+
+    89.4% {
+        opacity: 0;
+    }
+
+    90% {
+        opacity: 0.08;
+    }
+
+    90.4% {
+        opacity: 0;
+    }
+}
+
+
+/* --- PETIT ÉCLAIR SECONDAIRE --- */
+
+.lightning::after {
+    content: "";
+    position: absolute;
+
+    top: 5%;
+    right: 27%;
+
+    width: 2px;
+    height: 30%;
+
+    background: rgba(255, 255, 255, 0.55);
+
+    transform: rotate(8deg);
+
+    filter: blur(1px);
+
+    opacity: 0;
+
+    animation: lightningFlash 17s infinite;
+}
+
+@keyframes lightningFlash {
+
+    0%, 91%, 100% {
+        opacity: 0;
+    }
+
+    92% {
+        opacity: 0.7;
+    }
+
+    92.2% {
+        opacity: 0;
+    }
+
+    92.5% {
+        opacity: 0.35;
+    }
+
+    92.8% {
+        opacity: 0;
+    }
+}
 </style>
 </head>
 
