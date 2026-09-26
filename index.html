@@ -22,10 +22,6 @@ body {
     background: #05070a;
 }
 
-/* =========================================================
-   SCÈNE
-   ========================================================= */
-
 .scene {
     position: fixed;
     inset: 0;
@@ -34,6 +30,7 @@ body {
     overflow: hidden;
     background: #05070a;
 }
+
 
 /* =========================================================
    IMAGE PRINCIPALE
@@ -68,33 +65,35 @@ body {
     animation: imageBreathing 12s ease-in-out infinite;
 }
 
+
 /* =========================================================
-   ATMOSPHÈRE CHAUDE
+   ATMOSPHÈRE GÉNÉRALE
    ========================================================= */
 
 .atmosphere {
     position: absolute;
-    inset: 0;
+    inset: -8%;
 
     pointer-events: none;
+    z-index: 2;
 
     background:
         radial-gradient(
-            ellipse 55% 45% at 75% 48%,
-            rgba(255, 175, 65, 0.16) 0%,
-            rgba(255, 125, 35, 0.08) 30%,
+            ellipse at 50% 43%,
+            rgba(255, 190, 95, 0.14) 0%,
+            rgba(255, 145, 55, 0.075) 24%,
+            rgba(255, 100, 30, 0.035) 45%,
             transparent 70%
         );
 
     mix-blend-mode: screen;
 
-    opacity: 0.65;
-
     animation: atmospherePulse 7s ease-in-out infinite;
 }
 
+
 /* =========================================================
-   GRAND HALO CENTRAL
+   GRANDE LUEUR CENTRALE
    ========================================================= */
 
 .glow {
@@ -107,80 +106,106 @@ body {
     max-height: 850px;
 
     left: 50%;
-    top: 48%;
+    top: 45%;
 
     transform: translate(-50%, -50%);
 
     border-radius: 50%;
 
     pointer-events: none;
+    z-index: 3;
 
     background:
         radial-gradient(
             circle,
-            rgba(255, 190, 80, 0.14) 0%,
-            rgba(255, 135, 40, 0.075) 28%,
-            rgba(255, 100, 25, 0.025) 48%,
+            rgba(255, 190, 90, 0.16) 0%,
+            rgba(255, 145, 50, 0.09) 25%,
+            rgba(255, 100, 30, 0.045) 48%,
             transparent 72%
         );
 
     mix-blend-mode: screen;
 
-    opacity: 0.75;
-
     animation: glowMove 9s ease-in-out infinite;
 }
 
+
 /* =========================================================
-   LUEUR DU COUCHER DE SOLEIL
+   LUEUR LARGE SANS COUPURE HORIZONTALE
    ========================================================= */
 
-.sun-glow {
+.ambient-glow {
     position: absolute;
-    right: 5%;
-    top: 28%;
-
-    width: 38vw;
-    height: 38vw;
-
-    max-width: 650px;
-    max-height: 650px;
-
-    border-radius: 50%;
+    inset: -10%;
 
     pointer-events: none;
+    z-index: 4;
 
     background:
         radial-gradient(
-            circle,
-            rgba(255, 205, 105, 0.18) 0%,
-            rgba(255, 150, 45, 0.08) 30%,
+            ellipse at 50% 48%,
+            rgba(255, 170, 70, 0.12) 0%,
+            rgba(255, 120, 40, 0.065) 28%,
             transparent 68%
+        ),
+        radial-gradient(
+            ellipse at 78% 53%,
+            rgba(255, 205, 105, 0.15) 0%,
+            rgba(255, 150, 55, 0.07) 22%,
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse at 20% 57%,
+            rgba(255, 125, 45, 0.075) 0%,
+            transparent 48%
         );
 
     mix-blend-mode: screen;
 
-    animation: sunGlow 6s ease-in-out infinite;
+    animation: ambientPulse 8s ease-in-out infinite;
 }
 
+
 /* =========================================================
-   VIGNETTE
+   HALO DU SOLEIL
    ========================================================= */
 
-.vignette {
+.sun-glow {
     position: absolute;
-    inset: 0;
+
+    width: 32vw;
+    height: 32vw;
+
+    max-width: 520px;
+    max-height: 520px;
+
+    right: 7%;
+    top: 38%;
+
+    transform: translate(50%, -50%);
+
+    border-radius: 50%;
 
     pointer-events: none;
+    z-index: 5;
 
     background:
         radial-gradient(
-            ellipse at center,
-            transparent 45%,
-            rgba(0, 0, 0, 0.08) 70%,
-            rgba(0, 0, 0, 0.42) 100%
+            circle,
+            rgba(255, 245, 190, 0.20) 0%,
+            rgba(255, 205, 105, 0.13) 15%,
+            rgba(255, 155, 50, 0.075) 32%,
+            rgba(255, 110, 30, 0.025) 52%,
+            transparent 72%
         );
+
+    mix-blend-mode: screen;
+
+    filter: blur(2px);
+
+    animation: sunPulse 6s ease-in-out infinite;
 }
+
 
 /* =========================================================
    REFLETS SUR LA MER
@@ -189,14 +214,13 @@ body {
 .sea-shimmer {
     position: absolute;
 
-    left: -15%;
-    bottom: 0;
+    left: -12%;
+    bottom: -4%;
 
-    width: 130%;
-    height: 48%;
+    width: 124%;
+    height: 52%;
 
     pointer-events: none;
-
     z-index: 6;
 
     background:
@@ -204,117 +228,85 @@ body {
             168deg,
             transparent 0%,
             transparent 5%,
-            rgba(255, 220, 150, 0.025) 6%,
-            rgba(255, 225, 165, 0.16) 8%,
-            rgba(255, 190, 100, 0.06) 10%,
-            transparent 13%,
-            transparent 18%
+            rgba(255, 220, 155, 0.00) 7%,
+            rgba(255, 225, 170, 0.13) 9%,
+            rgba(255, 205, 135, 0.07) 11%,
+            transparent 14%
+        ),
+        linear-gradient(
+            180deg,
+            transparent 0%,
+            rgba(255, 185, 85, 0.025) 45%,
+            rgba(255, 190, 90, 0.08) 75%,
+            rgba(255, 205, 120, 0.11) 100%
         );
 
     opacity: 0.75;
 
     mix-blend-mode: screen;
 
-    animation:
-        seaShimmer 5s ease-in-out infinite,
-        seaDrift 13s linear infinite;
+    animation: seaShimmer 7s ease-in-out infinite;
 }
 
-/* Deuxième couche de reflets */
+
+/* Reflet lumineux plus concentré vers le soleil */
 
 .sea-shimmer::before {
     content: "";
 
     position: absolute;
 
-    left: 0;
-    bottom: 5%;
+    left: 58%;
+    top: 20%;
 
-    width: 100%;
-    height: 65%;
+    width: 38%;
+    height: 70%;
 
     background:
         repeating-linear-gradient(
-            175deg,
+            170deg,
             transparent 0%,
-            transparent 7%,
-            rgba(255, 235, 180, 0.10) 9%,
-            transparent 12%,
-            transparent 19%
+            rgba(255, 220, 150, 0.03) 8%,
+            rgba(255, 225, 160, 0.17) 10%,
+            transparent 14%
         );
 
-    opacity: 0.75;
+    filter: blur(1px);
 
-    mix-blend-mode: screen;
+    opacity: 0.8;
 
-    animation: seaWaves 6s ease-in-out infinite;
+    animation: waterReflection 5s ease-in-out infinite;
 }
 
-/* Bande lumineuse de l'horizon */
+
+/* Ligne lumineuse de l'horizon */
 
 .sea-shimmer::after {
     content: "";
 
     position: absolute;
 
-    left: 22%;
+    left: 12%;
     right: 12%;
-    top: 22%;
+    top: 36%;
 
-    height: 5px;
+    height: 3px;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255, 190, 95, 0.18),
-            rgba(255, 235, 175, 0.75),
-            rgba(255, 180, 75, 0.18),
+            rgba(255, 210, 130, 0.10) 20%,
+            rgba(255, 225, 165, 0.40) 50%,
+            rgba(255, 210, 130, 0.10) 80%,
             transparent
         );
 
-    filter: blur(4px);
-
-    opacity: 0.8;
+    filter: blur(2px);
 
     animation: horizonGlow 4s ease-in-out infinite;
 }
 
-/* =========================================================
-   REFLET VERTICAL DU SOLEIL SUR L'EAU
-   ========================================================= */
-
-.water-light {
-    position: absolute;
-
-    right: 12%;
-    bottom: -4%;
-
-    width: 22%;
-    height: 45%;
-
-    pointer-events: none;
-
-    z-index: 7;
-
-    background:
-        linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgba(255, 220, 130, 0.04) 12%,
-            rgba(255, 205, 105, 0.22) 35%,
-            rgba(255, 170, 60, 0.13) 60%,
-            transparent 100%
-        );
-
-    filter: blur(7px);
-
-    mix-blend-mode: screen;
-
-    transform: skewX(-8deg);
-
-    animation: waterLight 5s ease-in-out infinite;
-}
 
 /* =========================================================
    ÉCLAIRS
@@ -325,17 +317,25 @@ body {
     inset: 0;
 
     pointer-events: none;
-
     z-index: 12;
 
     opacity: 0;
 
     background:
         radial-gradient(
-            ellipse at 72% 24%,
-            rgba(255, 245, 215, 0.32),
-            rgba(255, 220, 170, 0.10) 18%,
-            transparent 42%
+            ellipse at 67% 25%,
+            rgba(255, 255, 255, 0.18),
+            transparent 28%
+        ),
+        linear-gradient(
+            108deg,
+            transparent 0%,
+            transparent 42%,
+            rgba(255, 255, 255, 0.00) 45%,
+            rgba(255, 255, 245, 0.65) 48%,
+            rgba(255, 255, 255, 0.12) 50%,
+            transparent 54%,
+            transparent 100%
         );
 
     mix-blend-mode: screen;
@@ -343,170 +343,168 @@ body {
     animation: distantLightning 11s infinite;
 }
 
-/*
-   Éclair principal.
-   Il est volontairement assez visible pour être remarqué,
-   mais très bref pour conserver un aspect naturel.
-*/
+
+/* Deuxième éclair */
 
 .lightning::before {
     content: "";
 
     position: absolute;
-
-    top: 5%;
-    right: 25%;
-
-    width: 5px;
-    height: 42%;
+    inset: 0;
 
     background:
         linear-gradient(
-            to bottom,
+            112deg,
             transparent 0%,
-            rgba(255,255,255,0.9) 8%,
-            rgba(255,245,210,1) 42%,
-            rgba(255,255,255,0.8) 72%,
+            transparent 54%,
+            rgba(255, 255, 255, 0.00) 57%,
+            rgba(255, 255, 255, 0.55) 59%,
+            rgba(255, 255, 255, 0.10) 61%,
+            transparent 64%,
             transparent 100%
         );
 
-    clip-path: polygon(
-        55% 0%,
-        100% 0%,
-        63% 35%,
-        100% 35%,
-        22% 100%,
-        38% 53%,
-        0% 53%
-    );
-
-    filter:
-        blur(0.6px)
-        drop-shadow(0 0 7px rgba(255,255,255,0.9))
-        drop-shadow(0 0 20px rgba(255,220,150,0.7));
-
-    transform: rotate(5deg);
-
     opacity: 0;
 
-    animation: lightningStrike 11s infinite;
+    animation: secondLightning 17s infinite;
 }
 
-/* Éclair secondaire */
+
+/* Éclair vertical secondaire */
 
 .lightning::after {
     content: "";
 
     position: absolute;
 
-    top: 11%;
-    right: 38%;
+    top: 4%;
+    right: 28%;
 
-    width: 3px;
-    height: 25%;
+    width: 4px;
+    height: 38%;
 
     background:
         linear-gradient(
-            to bottom,
+            180deg,
             transparent,
-            rgba(255,255,255,0.85),
+            rgba(255, 255, 255, 0.9) 20%,
+            rgba(255, 255, 255, 0.35) 55%,
             transparent
         );
 
-    clip-path: polygon(
-        40% 0%,
-        100% 0%,
-        60% 45%,
-        100% 45%,
-        20% 100%,
-        35% 60%,
-        0% 60%
-    );
+    transform: rotate(7deg);
 
-    filter:
-        drop-shadow(0 0 8px rgba(255,255,255,0.9));
+    filter: blur(1px);
 
     opacity: 0;
 
-    animation: lightningSecondary 17s infinite;
+    animation: lightningFlash 19s infinite;
 }
 
+
 /* =========================================================
-   FLASH D'ÉCLAIR DANS LE CIEL
+   OISEAUX
    ========================================================= */
 
-.sky-flash {
+.birds {
     position: absolute;
     inset: 0;
 
     pointer-events: none;
-
     z-index: 11;
+}
 
-    opacity: 0;
+.bird {
+    position: absolute;
+
+    width: 34px;
+    height: 18px;
+
+    opacity: 0.72;
+
+    animation: birdFlight 14s linear infinite;
+}
+
+.bird::before,
+.bird::after {
+    content: "";
+
+    position: absolute;
+
+    top: 7px;
+
+    width: 18px;
+    height: 10px;
+
+    border-top: 2px solid rgba(5, 7, 10, 0.88);
+
+    border-radius: 50% 50% 0 0;
+}
+
+.bird::before {
+    right: 50%;
+
+    transform: rotate(14deg);
+}
+
+.bird::after {
+    left: 50%;
+
+    transform: rotate(-14deg);
+}
+
+.bird:nth-child(1) {
+    top: 22%;
+    left: 71%;
+    transform: scale(0.85);
+    animation-duration: 18s;
+}
+
+.bird:nth-child(2) {
+    top: 28%;
+    left: 80%;
+    transform: scale(1.15);
+    animation-duration: 22s;
+    animation-delay: -7s;
+}
+
+.bird:nth-child(3) {
+    top: 18%;
+    left: 62%;
+    transform: scale(0.65);
+    animation-duration: 16s;
+    animation-delay: -4s;
+}
+
+.bird:nth-child(4) {
+    top: 34%;
+    left: 74%;
+    transform: scale(0.55);
+    animation-duration: 20s;
+    animation-delay: -11s;
+}
+
+
+/* =========================================================
+   VIGNETTE
+   ========================================================= */
+
+.vignette {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 15;
 
     background:
         radial-gradient(
-            ellipse at 70% 22%,
-            rgba(255, 235, 200, 0.22),
-            transparent 48%
+            ellipse at center,
+            transparent 45%,
+            rgba(0, 0, 0, 0.08) 70%,
+            rgba(0, 0, 0, 0.38) 100%
         );
-
-    mix-blend-mode: screen;
-
-    animation: skyFlash 11s infinite;
 }
 
-/* =========================================================
-   PARTICULES / PETITES LUEURS
-   ========================================================= */
-
-.sparkle {
-    position: absolute;
-
-    width: 3px;
-    height: 3px;
-
-    border-radius: 50%;
-
-    pointer-events: none;
-
-    z-index: 13;
-
-    background: rgba(255, 225, 160, 0.9);
-
-    box-shadow:
-        0 0 8px rgba(255, 205, 120, 0.8),
-        0 0 18px rgba(255, 180, 70, 0.5);
-
-    opacity: 0;
-
-    animation: sparkle 6s ease-in-out infinite;
-}
-
-.sparkle.one {
-    left: 31%;
-    top: 42%;
-    animation-delay: 1s;
-}
-
-.sparkle.two {
-    left: 63%;
-    top: 51%;
-    animation-delay: 3s;
-}
-
-.sparkle.three {
-    left: 77%;
-    top: 63%;
-    animation-delay: 4.5s;
-}
-
-.sparkle.four {
-    left: 43%;
-    top: 67%;
-    animation-delay: 2s;
-}
 
 /* =========================================================
    BOUTON MUSIQUE
@@ -569,13 +567,14 @@ body {
         0 0 20px rgba(255, 170, 65, 0.28);
 }
 
+
 /* =========================================================
    ANIMATIONS
    ========================================================= */
 
 @keyframes imageBreathing {
 
-    0% {
+    0%, 100% {
         filter:
             brightness(0.96)
             saturate(1.02)
@@ -584,20 +583,42 @@ body {
 
     50% {
         filter:
-            brightness(1.02)
-            saturate(1.07)
-            contrast(1.04);
-    }
-
-    100% {
-        filter:
-            brightness(0.96)
-            saturate(1.02)
-            contrast(1.02);
+            brightness(1.04)
+            saturate(1.08)
+            contrast(1.05);
     }
 }
 
+
 @keyframes atmospherePulse {
+
+    0%, 100% {
+        opacity: 0.55;
+        transform: scale(0.98);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.03);
+    }
+}
+
+
+@keyframes glowMove {
+
+    0%, 100% {
+        opacity: 0.45;
+        transform: translate(-50%, -50%) scale(0.94);
+    }
+
+    50% {
+        opacity: 0.95;
+        transform: translate(-48%, -51%) scale(1.08);
+    }
+}
+
+
+@keyframes ambientPulse {
 
     0%, 100% {
         opacity: 0.48;
@@ -605,238 +626,197 @@ body {
     }
 
     50% {
-        opacity: 0.82;
-        transform: scale(1.04);
+        opacity: 0.95;
+        transform: scale(1.025);
     }
 }
 
-@keyframes glowMove {
+
+@keyframes sunPulse {
 
     0%, 100% {
-        opacity: 0.42;
-        transform: translate(-50%, -50%) scale(0.94);
+        opacity: 0.48;
+        transform: translate(50%, -50%) scale(0.92);
     }
 
     50% {
-        opacity: 0.82;
-        transform: translate(-48%, -52%) scale(1.08);
+        opacity: 1;
+        transform: translate(50%, -50%) scale(1.12);
     }
 }
 
-@keyframes sunGlow {
-
-    0%, 100% {
-        opacity: 0.35;
-        transform: scale(0.95);
-    }
-
-    50% {
-        opacity: 0.75;
-        transform: scale(1.08);
-    }
-}
 
 @keyframes seaShimmer {
 
     0% {
-        transform: translateX(-3%);
-        opacity: 0.35;
+        transform: translateX(-3%) scaleY(0.98);
+        opacity: 0.42;
     }
 
     50% {
-        transform: translateX(3%);
-        opacity: 0.95;
+        transform: translateX(3%) scaleY(1.03);
+        opacity: 0.90;
     }
 
     100% {
-        transform: translateX(-3%);
-        opacity: 0.35;
+        transform: translateX(-3%) scaleY(0.98);
+        opacity: 0.42;
     }
 }
 
-@keyframes seaDrift {
 
-    0% {
-        background-position: 0 0;
-    }
-
-    50% {
-        background-position: 80px 20px;
-    }
-
-    100% {
-        background-position: 160px 0;
-    }
-}
-
-@keyframes seaWaves {
+@keyframes waterReflection {
 
     0%, 100% {
-        transform: translateX(-2%) scaleY(0.96);
+        transform: translateX(-4%) scaleX(0.92);
         opacity: 0.35;
     }
 
     50% {
-        transform: translateX(2%) scaleY(1.05);
-        opacity: 0.9;
+        transform: translateX(4%) scaleX(1.08);
+        opacity: 0.95;
     }
 }
+
 
 @keyframes horizonGlow {
 
     0%, 100% {
         opacity: 0.18;
-        transform: scaleX(0.8);
-    }
-
-    50% {
-        opacity: 0.95;
-        transform: scaleX(1.15);
-    }
-}
-
-@keyframes waterLight {
-
-    0%, 100% {
-        opacity: 0.25;
-        transform: skewX(-8deg) scaleY(0.92);
+        transform: scaleX(0.82);
     }
 
     50% {
         opacity: 0.85;
-        transform: skewX(-5deg) scaleY(1.08);
+        transform: scaleX(1.05);
     }
 }
 
-/* =========================================================
-   ÉCLAIRS : FLASHS COURTS ET VISIBLES
-   ========================================================= */
+
+/* ÉCLAIR PRINCIPAL : plusieurs flashes prolongés */
 
 @keyframes distantLightning {
 
-    0%, 76%, 100% {
+    0%, 63% {
         opacity: 0;
     }
 
-    78% {
-        opacity: 0.22;
+    64% {
+        opacity: 0.28;
     }
 
-    78.25% {
-        opacity: 0.05;
+    64.8% {
+        opacity: 0.92;
     }
 
-    78.6% {
-        opacity: 0.48;
+    66% {
+        opacity: 0.18;
     }
 
-    79% {
+    67% {
+        opacity: 0.72;
+    }
+
+    68.5% {
+        opacity: 0.10;
+    }
+
+    70% {
         opacity: 0;
     }
 
-    81% {
-        opacity: 0;
-    }
-
-    81.2% {
-        opacity: 0.20;
-    }
-
-    81.45% {
-        opacity: 0;
-    }
-}
-
-@keyframes lightningStrike {
-
-    0%, 76%, 100% {
-        opacity: 0;
-    }
-
-    78% {
-        opacity: 0.95;
-    }
-
-    78.18% {
-        opacity: 0;
-    }
-
-    78.45% {
-        opacity: 0.78;
-    }
-
-    78.75% {
+    100% {
         opacity: 0;
     }
 }
 
-@keyframes lightningSecondary {
 
-    0%, 81%, 100% {
+@keyframes secondLightning {
+
+    0%, 71% {
         opacity: 0;
     }
 
-    82% {
-        opacity: 0.8;
-    }
-
-    82.18% {
-        opacity: 0;
-    }
-
-    82.5% {
-        opacity: 0.45;
-    }
-
-    82.75% {
-        opacity: 0;
-    }
-}
-
-@keyframes skyFlash {
-
-    0%, 76%, 100% {
-        opacity: 0;
-    }
-
-    78% {
+    72% {
         opacity: 0.65;
     }
 
-    78.2% {
+    73.5% {
+        opacity: 0.12;
+    }
+
+    74.5% {
+        opacity: 0.55;
+    }
+
+    76% {
         opacity: 0;
     }
 
-    78.55% {
-        opacity: 0.38;
-    }
-
-    78.8% {
+    100% {
         opacity: 0;
     }
 }
 
-/* =========================================================
-   PETITES LUEURS
-   ========================================================= */
 
-@keyframes sparkle {
+@keyframes lightningFlash {
 
-    0%, 70%, 100% {
+    0%, 78% {
         opacity: 0;
-        transform: scale(0.5);
+    }
+
+    79% {
+        opacity: 0.75;
+    }
+
+    80.2% {
+        opacity: 0.20;
+    }
+
+    81% {
+        opacity: 0.60;
+    }
+
+    82.2% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* Mouvement des oiseaux */
+
+@keyframes birdFlight {
+
+    0% {
+        margin-left: -15px;
+        transform: translateY(0) scale(1);
+    }
+
+    25% {
+        margin-left: 10px;
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    50% {
+        margin-left: 30px;
+        transform: translateY(2px) scale(0.98);
     }
 
     75% {
-        opacity: 0.8;
-        transform: scale(1.3);
+        margin-left: 55px;
+        transform: translateY(-7px) scale(1.02);
     }
 
-    80% {
-        opacity: 0.15;
-        transform: scale(0.7);
+    100% {
+        margin-left: 90px;
+        transform: translateY(0) scale(1);
     }
 }
+
 
 /* =========================================================
    PETITS ÉCRANS
@@ -853,63 +833,63 @@ body {
         font-size: 14px;
     }
 
-    .sea-shimmer {
-        height: 45%;
+    .sun-glow {
+        width: 45vw;
+        height: 45vw;
     }
 
-    .water-light {
-        right: 10%;
-        width: 28%;
+    .sea-shimmer {
+        height: 48%;
     }
 }
 
 </style>
 </head>
 
+
 <body>
 
 <div class="scene">
 
-    <!-- =====================================================
-         IMAGE ORIGINALE : NE PAS MODIFIER
-         ===================================================== -->
-
+    <!-- IMAGE ORIGINALE : VISUEL.JPG -->
     <div class="background">
         <img src="visuel.jpg" alt="Mad.BZH">
     </div>
 
-    <!-- =====================================================
-         EFFETS
-         ===================================================== -->
 
+    <!-- ATMOSPHÈRE -->
     <div class="atmosphere"></div>
 
     <div class="glow"></div>
 
+    <div class="ambient-glow"></div>
+
+    <!-- LUMIÈRE DU SOLEIL -->
     <div class="sun-glow"></div>
 
+    <!-- REFLETS MER -->
     <div class="sea-shimmer"></div>
 
-    <div class="water-light"></div>
-
-    <div class="sky-flash"></div>
-
+    <!-- ÉCLAIRS -->
     <div class="lightning"></div>
 
-    <div class="sparkle one"></div>
-    <div class="sparkle two"></div>
-    <div class="sparkle three"></div>
-    <div class="sparkle four"></div>
+    <!-- OISEAUX -->
+    <div class="birds">
+        <div class="bird"></div>
+        <div class="bird"></div>
+        <div class="bird"></div>
+        <div class="bird"></div>
+    </div>
 
+    <!-- VIGNETTE -->
     <div class="vignette"></div>
 
-    <!-- =====================================================
-         MUSIQUE
-         ===================================================== -->
 
+    <!-- MUSIQUE -->
     <audio id="music" preload="auto" loop>
         <source src="celtic-ambience.wav" type="audio/wav">
     </audio>
+
 
     <button
         id="musicButton"
@@ -921,6 +901,7 @@ body {
     </button>
 
 </div>
+
 
 <script>
 
