@@ -1,480 +1,635 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAD.BZH</title>
 
-  <title>MAD.BZH</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #05070a;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #05070a;
+}
+
+/* =========================
+   IMAGE DE FOND
+   ========================= */
+
+.background {
+    position: absolute;
+    inset: -5%;
+    width: 110%;
+    height: 110%;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3, 7, 12, 0.18),
+            rgba(3, 7, 12, 0.32)
+        ),
+        url("mad-bzh.jpg.png") center center / cover no-repeat;
+
+    animation: backgroundDrift 24s ease-in-out infinite alternate;
+    filter: saturate(1.05) contrast(1.05) brightness(0.94);
+}
+
+@keyframes backgroundDrift {
+    from {
+        transform: scale(1);
     }
 
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #020810;
+    to {
+        transform: scale(1.045);
     }
+}
 
-    body {
-      font-family: Georgia, "Times New Roman", serif;
-    }
+/* =========================
+   ATMOSPHÈRE
+   ========================= */
 
-    /* IMAGE PRINCIPALE */
-    .scene {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background:
-        #020810 url("mad-bzh.jpg.png") center center / cover no-repeat;
-    }
+.atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
-    /* Assombrissement très léger pour donner de la profondeur */
-    .scene::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
+    background:
         radial-gradient(
-          ellipse at center,
-          transparent 35%,
-          rgba(0, 5, 12, 0.18) 75%,
-          rgba(0, 3, 8, 0.48) 100%
+            circle at 50% 42%,
+            rgba(255, 222, 165, 0.18),
+            transparent 35%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(3, 9, 16, 0.08),
+            rgba(3, 9, 16, 0.48)
         );
-      z-index: 2;
-    }
 
-    /* LUMIÈRE QUI SE DÉPLACE */
-    .light {
-      position: absolute;
-      width: 45vw;
-      height: 45vw;
-      max-width: 650px;
-      max-height: 650px;
-      left: 50%;
-      top: 48%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 3;
+    mix-blend-mode: screen;
+}
 
-      background: radial-gradient(
-        circle,
-        rgba(255, 190, 100, 0.14) 0%,
-        rgba(255, 150, 70, 0.06) 28%,
-        transparent 70%
-      );
+/* =========================
+   VOILE SOMBRE
+   ========================= */
 
-      animation: lightMove 13s ease-in-out infinite alternate;
-    }
+.vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
-    @keyframes lightMove {
-      0% {
-        transform: translate(-55%, -52%) scale(0.9);
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 42%,
+            rgba(0, 0, 0, 0.48) 100%
+        );
+}
+
+/* =========================
+   LUEUR CENTRALE
+   ========================= */
+
+.light {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+
+    width: min(44vw, 560px);
+    height: min(44vw, 560px);
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 218, 150, 0.16),
+            rgba(255, 190, 100, 0.055) 38%,
+            transparent 70%
+        );
+
+    filter: blur(4px);
+    pointer-events: none;
+
+    animation: breathingLight 7s ease-in-out infinite alternate;
+}
+
+@keyframes breathingLight {
+    from {
         opacity: 0.55;
-      }
-
-      50% {
-        transform: translate(-42%, -48%) scale(1.08);
-        opacity: 0.85;
-      }
-
-      100% {
-        transform: translate(-48%, -40%) scale(0.96);
-        opacity: 0.6;
-      }
+        transform: translate(-50%, -50%) scale(0.94);
     }
 
-    /* REFLET LUMINEUX SUR LA MER */
-    .sea-light {
-      position: absolute;
-      left: 49%;
-      bottom: 7%;
-      width: 38vw;
-      height: 17vh;
-      transform: translateX(-50%);
-      pointer-events: none;
-      z-index: 4;
-
-      background: linear-gradient(
-        to bottom,
-        rgba(255, 190, 100, 0.00),
-        rgba(255, 185, 95, 0.13),
-        rgba(255, 220, 150, 0.03),
-        transparent
-      );
-
-      filter: blur(7px);
-
-      animation: seaReflection 7s ease-in-out infinite alternate;
-    }
-
-    @keyframes seaReflection {
-      0% {
-        opacity: 0.35;
-        transform: translateX(-53%) scaleX(0.85);
-      }
-
-      50% {
-        opacity: 0.8;
-        transform: translateX(-47%) scaleX(1.12);
-      }
-
-      100% {
-        opacity: 0.45;
-        transform: translateX(-51%) scaleX(0.92);
-      }
-    }
-
-    /* PETITES ONDES LUMINEUSES */
-    .waves {
-      position: absolute;
-      left: 20%;
-      right: 10%;
-      bottom: 0;
-      height: 34%;
-      pointer-events: none;
-      z-index: 5;
-      opacity: 0.28;
-      background:
-        repeating-linear-gradient(
-          176deg,
-          transparent 0px,
-          transparent 13px,
-          rgba(255, 220, 160, 0.18) 14px,
-          transparent 16px
-        );
-      mask-image: linear-gradient(to top, black, transparent);
-      animation: wavesMove 9s ease-in-out infinite alternate;
-    }
-
-    @keyframes wavesMove {
-      from {
-        transform: translateX(-12px);
-      }
-
-      to {
-        transform: translateX(15px);
-      }
-    }
-
-    /* ÉCLAIR */
-    .lightning {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 20;
-      opacity: 0;
-      background: rgba(220, 235, 255, 0.55);
-    }
-
-    .lightning.flash {
-      animation: lightningFlash 0.65s ease-out;
-    }
-
-    @keyframes lightningFlash {
-      0%   { opacity: 0; }
-      8%   { opacity: 0.72; }
-      12%  { opacity: 0.05; }
-      20%  { opacity: 0.48; }
-      27%  { opacity: 0; }
-      100% { opacity: 0; }
-    }
-
-    /* HALO AUTOUR DU SYMBOLE EN BAS À GAUCHE */
-    .halo {
-      position: absolute;
-      left: 12%;
-      bottom: 8%;
-      width: 105px;
-      height: 105px;
-      transform: translate(-50%, 50%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 15;
-
-      background: radial-gradient(
-        circle,
-        rgba(255, 180, 80, 0.65) 0%,
-        rgba(255, 150, 60, 0.24) 18%,
-        rgba(255, 120, 40, 0.08) 42%,
-        transparent 70%
-      );
-
-      filter: blur(4px);
-      opacity: 0;
-
-      animation: haloPulse 12s ease-in-out infinite;
-    }
-
-    @keyframes haloPulse {
-      0%, 58%, 100% {
-        opacity: 0;
-        transform: translate(-50%, 50%) scale(0.65);
-      }
-
-      62% {
+    to {
         opacity: 0.9;
-        transform: translate(-50%, 50%) scale(1.1);
-      }
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+}
 
-      67% {
-        opacity: 0.35;
-        transform: translate(-50%, 50%) scale(1.35);
-      }
+/* =========================
+   TITRE
+   ========================= */
 
-      72% {
-        opacity: 0;
-        transform: translate(-50%, 50%) scale(1.5);
-      }
+.title {
+    position: absolute;
+    left: 50%;
+    top: 42%;
+
+    transform: translate(-50%, -50%);
+
+    color: rgba(255, 239, 205, 0.94);
+
+    font-size: clamp(36px, 7vw, 88px);
+    font-weight: normal;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 8px rgba(255, 216, 145, 0.55),
+        0 0 22px rgba(255, 190, 100, 0.25),
+        0 3px 14px rgba(0, 0, 0, 0.75);
+
+    animation: titleGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow:
+            0 0 7px rgba(255, 216, 145, 0.45),
+            0 0 18px rgba(255, 190, 100, 0.18),
+            0 3px 14px rgba(0, 0, 0, 0.75);
     }
 
-    /* BOUTON MUSIQUE */
-    .music-button {
-      position: absolute;
-      right: 24px;
-      bottom: 20px;
-      z-index: 50;
+    to {
+        text-shadow:
+            0 0 12px rgba(255, 225, 165, 0.78),
+            0 0 30px rgba(255, 190, 100, 0.32),
+            0 3px 14px rgba(0, 0, 0, 0.75);
+    }
+}
 
-      padding: 10px 17px;
-      border-radius: 30px;
+/* =========================
+   SOUS-TITRE
+   ========================= */
 
-      border: 1px solid rgba(255, 220, 170, 0.55);
-      background: rgba(4, 10, 17, 0.55);
-      color: #f5ead8;
+.subtitle {
+    position: absolute;
+    left: 50%;
+    top: calc(42% + clamp(42px, 7vw, 88px));
 
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 14px;
+    transform: translateX(-50%);
 
-      cursor: pointer;
+    color: rgba(255, 232, 190, 0.68);
 
-      backdrop-filter: blur(6px);
+    font-size: clamp(11px, 1.4vw, 16px);
+    letter-spacing: 0.38em;
+    text-indent: 0.38em;
 
-      transition:
-        background 0.3s ease,
-        box-shadow 0.3s ease,
-        transform 0.3s ease;
+    white-space: nowrap;
+
+    text-shadow:
+        0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+/* =========================
+   CORBEAUX
+   ========================= */
+
+.crow {
+    position: absolute;
+    left: -12vw;
+
+    color: rgba(0, 0, 0, 0.78);
+
+    font-family: Georgia, serif;
+    font-size: clamp(22px, 3vw, 42px);
+
+    pointer-events: none;
+
+    filter:
+        drop-shadow(0 2px 3px rgba(0,0,0,0.7));
+
+    animation-name: crowFlight;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.crow::before {
+    content: "♞";
+    display: block;
+    transform: rotate(-18deg) scaleX(1.35);
+}
+
+.crow.one {
+    top: 22%;
+    animation-duration: 18s;
+    animation-delay: -3s;
+}
+
+.crow.two {
+    top: 31%;
+    font-size: clamp(16px, 2.2vw, 31px);
+    animation-duration: 23s;
+    animation-delay: -11s;
+}
+
+.crow.three {
+    top: 16%;
+    font-size: clamp(13px, 1.8vw, 26px);
+    animation-duration: 27s;
+    animation-delay: -18s;
+}
+
+.crow.four {
+    top: 38%;
+    font-size: clamp(12px, 1.6vw, 24px);
+    animation-duration: 31s;
+    animation-delay: -24s;
+}
+
+@keyframes crowFlight {
+    0% {
+        left: -12vw;
+        transform: translateY(0) rotate(-2deg);
     }
 
-    .music-button:hover {
-      background: rgba(80, 45, 20, 0.65);
-      box-shadow: 0 0 20px rgba(255, 180, 90, 0.28);
-      transform: translateY(-2px);
+    25% {
+        transform: translateY(-18px) rotate(3deg);
     }
 
-    .music-button.playing {
-      box-shadow:
-        0 0 10px rgba(255, 190, 100, 0.4),
-        0 0 30px rgba(255, 150, 60, 0.2);
+    50% {
+        transform: translateY(8px) rotate(-2deg);
     }
 
-    /* MESSAGE DISCRET */
-    .sound-note {
-      position: absolute;
-      right: 25px;
-      bottom: 62px;
-      z-index: 50;
-
-      color: rgba(255, 240, 220, 0.72);
-      font-size: 11px;
-
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
+    75% {
+        transform: translateY(-14px) rotate(2deg);
     }
 
-    .sound-note.show {
-      opacity: 1;
+    100% {
+        left: 112vw;
+        transform: translateY(0) rotate(-2deg);
     }
+}
 
-    /* PETITS ÉCLAATS */
-    .spark {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: rgba(255, 220, 160, 0.9);
-      box-shadow: 0 0 9px rgba(255, 190, 100, 0.9);
-      pointer-events: none;
-      z-index: 10;
-      opacity: 0;
-      animation: spark 5s ease-in-out infinite;
-    }
+/* =========================
+   PETITS ÉCLATS
+   ========================= */
 
-    .spark:nth-child(1) {
-      left: 29%;
-      top: 28%;
-      animation-delay: 1s;
-    }
+.spark {
+    position: absolute;
 
-    .spark:nth-child(2) {
-      left: 71%;
-      top: 31%;
-      animation-delay: 3s;
-    }
+    width: 3px;
+    height: 3px;
 
-    .spark:nth-child(3) {
-      left: 61%;
-      top: 20%;
-      animation-delay: 5s;
-    }
+    border-radius: 50%;
 
-    @keyframes spark {
-      0%, 75%, 100% {
-        opacity: 0;
-        transform: scale(0.3);
-      }
+    background: rgba(255, 224, 160, 0.85);
 
-      82% {
-        opacity: 1;
-        transform: scale(1.3);
-      }
+    box-shadow:
+        0 0 6px rgba(255, 205, 120, 0.8),
+        0 0 12px rgba(255, 180, 80, 0.35);
 
-      88% {
+    animation: sparkle 4s ease-in-out infinite;
+}
+
+.spark.s1 {
+    left: 31%;
+    top: 24%;
+}
+
+.spark.s2 {
+    left: 68%;
+    top: 28%;
+    animation-delay: 1.3s;
+}
+
+.spark.s3 {
+    left: 75%;
+    top: 51%;
+    animation-delay: 2.1s;
+}
+
+.spark.s4 {
+    left: 23%;
+    top: 57%;
+    animation-delay: 0.8s;
+}
+
+@keyframes sparkle {
+    0%, 100% {
         opacity: 0;
         transform: scale(0.5);
-      }
     }
 
-    /* MOBILE */
-    @media (max-width: 700px) {
-      .scene {
-        background-position: center center;
-      }
-
-      
-
-      .halo {
-        left: 13%;
-        bottom: 10%;
-        width: 75px;
-        height: 75px;
-      }
-
-      .sea-light {
-        width: 70vw;
-      }
+    50% {
+        opacity: 1;
+        transform: scale(1.4);
     }
-  </style>
+}
+
+/* =========================
+   SM — BAS GAUCHE
+   ========================= */
+
+.sm-mark {
+    position: absolute;
+    left: 24px;
+    bottom: 20px;
+
+    width: 76px;
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(255, 236, 196, 0.94);
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255, 218, 155, 0.30);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 220, 155, 0.10),
+            rgba(4, 8, 14, 0.32) 62%,
+            transparent 70%
+        );
+
+    text-shadow:
+        0 0 7px rgba(255, 220, 155, 0.9),
+        0 0 18px rgba(255, 190, 100, 0.65),
+        0 0 32px rgba(255, 165, 80, 0.35);
+
+    box-shadow:
+        0 0 12px rgba(255, 210, 140, 0.22),
+        0 0 30px rgba(255, 170, 90, 0.14);
+
+    animation: smHalo 4.5s ease-in-out infinite alternate;
+
+    z-index: 40;
+}
+
+@keyframes smHalo {
+    from {
+        box-shadow:
+            0 0 10px rgba(255, 210, 140, 0.18),
+            0 0 22px rgba(255, 170, 90, 0.10);
+    }
+
+    to {
+        box-shadow:
+            0 0 18px rgba(255, 220, 150, 0.36),
+            0 0 42px rgba(255, 180, 90, 0.22);
+    }
+}
+
+/* =========================
+   MUSIQUE
+   ========================= */
+
+.music-button {
+    position: absolute;
+
+    right: 24px;
+    bottom: 20px;
+
+    z-index: 50;
+
+    padding: 10px 17px;
+
+    border: 1px solid rgba(255, 220, 170, 0.55);
+    border-radius: 30px;
+
+    background: rgba(4, 10, 17, 0.68);
+
+    color: #f5ead8;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.45),
+        inset 0 0 12px rgba(255, 210, 140, 0.04);
+
+    backdrop-filter: blur(5px);
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+}
+
+.music-button:hover {
+    background: rgba(20, 24, 29, 0.82);
+
+    border-color: rgba(255, 225, 180, 0.82);
+
+    box-shadow:
+        0 5px 22px rgba(0, 0, 0, 0.52),
+        0 0 16px rgba(255, 200, 120, 0.16);
+}
+
+.music-button:active {
+    transform: scale(0.96);
+}
+
+.music-button.playing {
+    border-color: rgba(255, 225, 175, 0.9);
+
+    box-shadow:
+        0 0 12px rgba(255, 210, 140, 0.30),
+        0 0 28px rgba(255, 180, 90, 0.14);
+}
+
+/* =========================
+   MESSAGE MUSIQUE
+   ========================= */
+
+.sound-note {
+    position: absolute;
+
+    right: 25px;
+    bottom: 62px;
+
+    z-index: 50;
+
+    color: rgba(255, 240, 215, 0.72);
+
+    font-size: 11px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.5s ease;
+}
+
+.sound-note.show {
+    opacity: 1;
+}
+
+/* =========================
+   ADAPTATION MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .title {
+        letter-spacing: 0.18em;
+        text-indent: 0.18em;
+    }
+
+    .subtitle {
+        letter-spacing: 0.22em;
+        text-indent: 0.22em;
+    }
+
+    .sm-mark {
+        left: 16px;
+        bottom: 16px;
+        width: 64px;
+        height: 64px;
+        font-size: 23px;
+    }
+
+    .music-button {
+        right: 16px;
+        bottom: 16px;
+        padding: 9px 14px;
+        font-size: 14px;
+    }
+
+    .sound-note {
+        right: 17px;
+        bottom: 58px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <main class="scene">
+<div class="scene">
 
-    <!-- Lumière générale -->
+    <!-- IMAGE -->
+    <div class="background"></div>
+
+    <!-- ATMOSPHÈRE -->
+    <div class="atmosphere"></div>
     <div class="light"></div>
+    <div class="vignette"></div>
 
-    <!-- Reflet sur la mer -->
-    <div class="sea-light"></div>
+    <!-- TITRE -->
+    <div class="title">MAD.BZH</div>
 
-    <!-- Animation des vagues -->
-    <div class="waves"></div>
+    <div class="subtitle">
+        ENTRE TERRE · MER · MÉMOIRE
+    </div>
 
-    <!-- Halo occasionnel -->
-    <div class="halo"></div>
+    <!-- CORBEAUX -->
+    <div class="crow one"></div>
+    <div class="crow two"></div>
+    <div class="crow three"></div>
+    <div class="crow four"></div>
 
-    <!-- Éclairs -->
-    <div class="lightning" id="lightning"></div>
+    <!-- ÉCLATS -->
+    <div class="spark s1"></div>
+    <div class="spark s2"></div>
+    <div class="spark s3"></div>
+    <div class="spark s4"></div>
 
-    <!-- Petits éclats lumineux -->
-    <div class="spark"></div>
-    <div class="spark"></div>
-    <div class="spark"></div>
+    <!-- SM -->
+    <div class="sm-mark">SM</div>
 
-    <!-- Musique -->
+    <!-- MUSIQUE : UN SEUL BOUTON -->
     <audio id="music" loop preload="auto">
-      <source src="celtic-ambience.wav" type="audio/wav">
+        <source src="celtic-ambience.wav" type="audio/wav">
     </audio>
 
-    <button class="music-button" id="musicButton">
-      ♫ Musique
+    <button class="music-button" id="musicButton" type="button">
+        ♫ Musique
     </button>
 
     <div class="sound-note" id="soundNote">
-      Cliquez pour écouter
+        Cliquez pour écouter
     </div>
 
-  </main>
+</div>
 
-  <script>
-    /* ============================
-       MUSIQUE
-       ============================ */
+<script>
+/* =========================
+   MUSIQUE
+   ========================= */
 
-    const music = document.getElementById("music");
-    const musicButton = document.getElementById("musicButton");
-    const soundNote = document.getElementById("soundNote");
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
+const soundNote = document.getElementById("soundNote");
 
-    musicButton.addEventListener("click", async () => {
+musicButton.addEventListener("click", async () => {
 
-      if (music.paused) {
+    if (music.paused) {
+
         try {
-          await music.play();
 
-          musicButton.textContent = "♫ Musique ON";
-          musicButton.classList.add("playing");
+            await music.play();
+
+            musicButton.textContent = "♫ Musique ON";
+            musicButton.classList.add("playing");
+
+            soundNote.classList.remove("show");
 
         } catch (error) {
-          soundNote.classList.add("show");
 
-          setTimeout(() => {
-            soundNote.classList.remove("show");
-          }, 2500);
+            soundNote.textContent = "Impossible de lire la musique";
+            soundNote.classList.add("show");
+
+            setTimeout(() => {
+                soundNote.classList.remove("show");
+            }, 2500);
         }
 
-      } else {
+    } else {
 
         music.pause();
 
         musicButton.textContent = "♫ Musique";
         musicButton.classList.remove("playing");
-      }
-    });
 
-
-    /* ============================
-       ÉCLAIRS OCCASIONNELS
-       ============================ */
-
-    const lightning = document.getElementById("lightning");
-
-    function createLightning() {
-
-      lightning.classList.remove("flash");
-
-      /* Force le navigateur à recalculer l'animation */
-      void lightning.offsetWidth;
-
-      lightning.classList.add("flash");
     }
-
-    function scheduleLightning() {
-
-      /* délai aléatoire entre environ 25 et 55 secondes */
-      const delay = 25000 + Math.random() * 30000;
-
-      setTimeout(() => {
-
-        createLightning();
-
-        /* parfois un deuxième éclair très léger */
-        if (Math.random() < 0.35) {
-          setTimeout(createLightning, 350);
-        }
-
-        scheduleLightning();
-
-      }, delay);
-    }
-
-    scheduleLightning();
-  </script>
+});
+</script>
 
 </body>
 </html>
