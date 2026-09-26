@@ -1,265 +1,372 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MAD.BZH — Prochainement</title>
+<title>mad.bzh</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            background: #05070a;
-            font-family: Georgia, "Times New Roman", serif;
-        }
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #05070a;
+}
 
-        /* =========================================
-           SCÈNE PRINCIPALE
-           ========================================= */
+/* =========================
+   SCÈNE PRINCIPALE
+   ========================= */
 
-        .scene {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            background: #05070a;
-        }
+.scene {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #05070a;
+}
 
-        /* =========================================
-           VISUEL PRINCIPAL
-           ========================================= */
+/* =========================
+   IMAGE PRINCIPALE
+   ========================= */
 
-        .background {
-            position: absolute;
-            inset: -3%;
+.background {
+    position: absolute;
+    inset: 0;
 
-            background-image: url("visuel.jpg");
-            background-position: center center;
-            background-size: cover;
-            background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            animation: backgroundBreath 18s ease-in-out infinite alternate;
+    width: 100%;
+    height: 100%;
 
-            will-change: transform;
-        }
+    background: #05070a;
+}
 
-        @keyframes backgroundBreath {
-            from {
-                transform: scale(1);
-            }
+/*
+   L'image entière reste visible.
+   Elle n'est donc pas coupée en haut ou en bas.
+*/
 
-            to {
-                transform: scale(1.035);
-            }
-        }
+.background img {
+    display: block;
 
-        /* =========================================
-           EFFET LUMINEUX TRÈS DISCRET
-           Aucun objet supplémentaire
-           ========================================= */
+    width: 100%;
+    height: 100%;
 
-        .atmosphere {
-            position: absolute;
-            inset: 0;
+    object-fit: contain;
+    object-position: center center;
 
-            pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 
-            background:
-                radial-gradient(
-                    circle at 72% 48%,
-                    rgba(255, 170, 75, 0.10),
-                    transparent 34%
-                ),
-                radial-gradient(
-                    circle at 28% 55%,
-                    rgba(255, 190, 100, 0.045),
-                    transparent 40%
-                );
+    animation: imageBreathing 12s ease-in-out infinite;
+}
 
-            mix-blend-mode: screen;
+/* =========================
+   EFFET LUMINEUX
+   ========================= */
 
-            animation: atmospherePulse 9s ease-in-out infinite alternate;
-        }
+.atmosphere {
+    position: absolute;
+    inset: 0;
 
-        @keyframes atmospherePulse {
-            from {
-                opacity: 0.45;
-            }
+    pointer-events: none;
 
-            to {
-                opacity: 0.9;
-            }
-        }
+    background:
+        radial-gradient(
+            circle at 50% 43%,
+            rgba(255, 184, 90, 0.10),
+            rgba(255, 140, 50, 0.035) 32%,
+            transparent 65%
+        );
 
-        /* =========================================
-           ASSOMBRISSEMENT TRÈS LÉGER DES BORDS
-           ========================================= */
+    mix-blend-mode: screen;
 
-        .vignette {
-            position: absolute;
-            inset: 0;
+    animation: atmospherePulse 7s ease-in-out infinite;
+}
 
-            pointer-events: none;
+/* =========================
+   VIGNETTE
+   ========================= */
 
-            background:
-                radial-gradient(
-                    ellipse at center,
-                    transparent 48%,
-                    rgba(0, 0, 0, 0.16) 100%
-                );
-        }
+.vignette {
+    position: absolute;
+    inset: 0;
 
-        /* =========================================
-           BOUTON MUSIQUE
-           ========================================= */
+    pointer-events: none;
 
-        .music-button {
-            position: absolute;
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 48%,
+            rgba(0, 0, 0, 0.10) 72%,
+            rgba(0, 0, 0, 0.38) 100%
+        );
+}
 
-            right: 18px;
-            bottom: 18px;
+/* =========================
+   LUMIÈRE LENTE
+   ========================= */
 
-            z-index: 10;
+.glow {
+    position: absolute;
 
-            padding: 10px 18px;
+    width: 42vw;
+    height: 42vw;
 
-            border: 1px solid rgba(235, 205, 145, 0.75);
-            border-radius: 22px;
+    max-width: 650px;
+    max-height: 650px;
 
-            background: rgba(10, 10, 10, 0.62);
+    left: 50%;
+    top: 46%;
 
-            color: #f3e5c4;
+    transform: translate(-50%, -50%);
 
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 15px;
+    border-radius: 50%;
 
-            cursor: pointer;
+    pointer-events: none;
 
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 170, 65, 0.11) 0%,
+            rgba(255, 120, 35, 0.045) 35%,
+            transparent 72%
+        );
 
-            transition:
-                background 0.3s ease,
-                color 0.3s ease,
-                border-color 0.3s ease,
-                transform 0.2s ease;
-        }
+    mix-blend-mode: screen;
 
-        .music-button:hover {
-            background: rgba(40, 30, 18, 0.78);
-            color: #fff4d8;
-            border-color: rgba(255, 225, 165, 0.95);
-            transform: translateY(-1px);
-        }
+    animation: glowMove 9s ease-in-out infinite;
+}
 
-        .music-button.playing {
-            background: rgba(75, 45, 20, 0.78);
-            color: #fff1ca;
-            border-color: rgba(255, 210, 125, 0.95);
-        }
+/* =========================
+   BOUTON MUSIQUE
+   ========================= */
 
-        /* =========================================
-           PETITS ÉCRANS
-           ========================================= */
+.music-button {
+    position: absolute;
 
-        @media (max-width: 700px) {
+    right: 18px;
+    bottom: 18px;
 
-            .background {
-                inset: -5%;
-            }
+    z-index: 20;
 
-            .music-button {
-                right: 14px;
-                bottom: 14px;
-                padding: 9px 15px;
-                font-size: 14px;
-            }
-        }
-    </style>
+    padding: 10px 17px;
+
+    border: 1px solid rgba(235, 205, 145, 0.75);
+    border-radius: 22px;
+
+    background: rgba(10, 10, 10, 0.65);
+
+    color: #f3e5c4;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+}
+
+.music-button:hover {
+    background: rgba(45, 30, 15, 0.82);
+
+    color: #fff4d8;
+
+    border-color: rgba(255, 220, 155, 0.95);
+
+    box-shadow:
+        0 0 18px rgba(255, 170, 70, 0.18);
+
+    transform: translateY(-1px);
+}
+
+.music-button.active {
+    background: rgba(70, 42, 18, 0.78);
+
+    color: #ffe9bd;
+
+    border-color: rgba(255, 190, 90, 0.95);
+
+    box-shadow:
+        0 0 20px rgba(255, 170, 65, 0.28);
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+/*
+   Très léger changement de luminosité.
+   L'image elle-même ne se déplace pas,
+   donc aucun risque de couper le haut ou le bas.
+*/
+
+@keyframes imageBreathing {
+
+    0% {
+        filter:
+            brightness(0.96)
+            saturate(1.02)
+            contrast(1.02);
+    }
+
+    50% {
+        filter:
+            brightness(1.02)
+            saturate(1.06)
+            contrast(1.04);
+    }
+
+    100% {
+        filter:
+            brightness(0.96)
+            saturate(1.02)
+            contrast(1.02);
+    }
+}
+
+@keyframes atmospherePulse {
+
+    0% {
+        opacity: 0.35;
+        transform: scale(0.96);
+    }
+
+    50% {
+        opacity: 0.85;
+        transform: scale(1.04);
+    }
+
+    100% {
+        opacity: 0.35;
+        transform: scale(0.96);
+    }
+}
+
+@keyframes glowMove {
+
+    0% {
+        opacity: 0.35;
+        transform: translate(-50%, -50%) scale(0.92);
+    }
+
+    50% {
+        opacity: 0.85;
+        transform: translate(-48%, -52%) scale(1.08);
+    }
+
+    100% {
+        opacity: 0.35;
+        transform: translate(-50%, -50%) scale(0.92);
+    }
+}
+
+/* =========================
+   PETITS ÉCRANS
+   ========================= */
+
+@media (max-width: 700px) {
+
+    .music-button {
+        right: 12px;
+        bottom: 12px;
+
+        padding: 9px 14px;
+
+        font-size: 14px;
+    }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-    <main class="scene">
+<div class="scene">
 
-        <!-- IMAGE PRINCIPALE -->
-        <div class="background"></div>
+    <!-- IMAGE PRINCIPALE -->
+    <div class="background">
+        <img src="visuel.jpg" alt="Mad.BZH">
+    </div>
 
-        <!-- EFFETS VISUELS DISCRETS -->
-        <div class="atmosphere"></div>
-        <div class="vignette"></div>
+    <!-- EFFETS VISUELS -->
+    <div class="atmosphere"></div>
+    <div class="glow"></div>
+    <div class="vignette"></div>
 
-        <!-- MUSIQUE -->
-        <audio id="music" preload="auto" loop>
-            <source src="celtic-ambience.wav" type="audio/wav">
-        </audio>
+    <!-- MUSIQUE -->
+    <audio id="music" preload="auto" loop>
+        <source src="celtic-ambience.wav" type="audio/wav">
+    </audio>
 
-        <button
-            id="musicButton"
-            class="music-button"
-            type="button"
-            aria-label="Activer la musique"
-        >
-            ♫ Musique
-        </button>
+    <button
+        id="musicButton"
+        class="music-button"
+        type="button"
+        aria-label="Activer ou arrêter la musique"
+    >
+        ♫ Musique
+    </button>
 
-    </main>
+</div>
 
-    <script>
-        const music = document.getElementById("music");
-        const musicButton = document.getElementById("musicButton");
 
-        musicButton.addEventListener("click", async () => {
+<script>
 
-            if (music.paused) {
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
 
-                try {
-                    await music.play();
+musicButton.addEventListener("click", async () => {
 
-                    musicButton.textContent = "♫ Musique ON";
-                    musicButton.classList.add("playing");
-                    musicButton.setAttribute(
-                        "aria-label",
-                        "Arrêter la musique"
-                    );
+    if (music.paused) {
 
-                } catch (error) {
+        try {
 
-                    musicButton.textContent = "♫ Musique";
-                    musicButton.classList.remove("playing");
+            await music.play();
 
-                    console.error(
-                        "Impossible de lire la musique :",
-                        error
-                    );
-                }
+            musicButton.textContent = "♫ Musique ON";
+            musicButton.classList.add("active");
 
-            } else {
+        } catch (error) {
 
-                music.pause();
+            console.log("Lecture audio impossible :", error);
 
-                musicButton.textContent = "♫ Musique";
-                musicButton.classList.remove("playing");
+        }
 
-                musicButton.setAttribute(
-                    "aria-label",
-                    "Activer la musique"
-                );
-            }
-        });
-    </script>
+    } else {
+
+        music.pause();
+
+        musicButton.textContent = "♫ Musique";
+        musicButton.classList.remove("active");
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>
